@@ -1,0 +1,85 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "PRAISE-WM",
+    "license": {
+      "name": "BSD"
+    }
+  },
+  "basePath": "/api",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/solve": {
+      "post": {
+        "tags": [
+          "ExpressionResult"
+        ],
+        "description": "Evalutates the query against the provided model",
+        "parameters": [
+          {
+            "name": "modelquery",
+            "description": "The model and query to execute against it",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ModelQuery"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+			"description": "An array of strings containing the results of the expressions",
+			"schema": {
+				"$ref": "#/definitions/ExpressionResult"
+			}
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ModelQuery": {
+      "required": [
+        "model",
+        "query"
+      ],
+      "properties": {
+        "model": {
+          "type": "string"
+        },
+        "query": {
+          "type": "string"
+        }
+      },
+      "example": {
+		"model": "random terrorAttacks : 0..20;\nrandom newJobs : 0..100000; // 100K\nrandom dow: 11000..18000;\nrandom economyIsPoor : Boolean;\nrandom economyIsGreat : Boolean;\nrandom attackPerception: Boolean;\nrandom likeIncumbent  : 0..100000000; // 100M\nrandom likeChallenger : 0..100000000; // 100M\n//\n// P(terrorAttacks) = 1/21; // uniform\n//\n// P(newJobs) = 1/(100000 + 1); // uniform\n//\n// P(dow) = 1/(18000 - 11000 + 1); // uniform\n//\neconomyIsPoor <=> dow < 13000 and newJobs < 30000;\n//\neconomyIsGreat <=> dow > 16000 and newJobs > 70000;\n//\nattackPerception <=> terrorAttacks > 4;\n//\n// P(likeIncumbent) =\nif economyIsGreat\n  then if likeIncumbent > 70000000 then 0.9/30000000 else 0.1/(70000000 + 1)\nelse if economyIsPoor\n  then if likeIncumbent < 40000000 then 0.8/40000000 else 0.2/(60000000 + 1)\nelse if attackPerception\n  then if likeIncumbent < 60000000 then 0.9/60000000 else 0.1/(40000000 + 1)\nelse 1/(100000000 + 1); // uniform\n//\n// P(likeChallenger) = 1/(100000000 + 1); // uniform\n//\n// Evidence scenarios:\n//\n// great economy:\n// dow = 18000; newJobs = 80000;\n//\n// poor economy:\n// dow = 12000; newJobs = 10000;\n//\n// attacks:\n// terrorAttacks = 5;\n//\n// great economy and attacks:\n// dow = 18000; newJobs = 80000; terrorAttacks = 5;\n",
+        "query": "likeIncumbent > likeChallenger"
+      }
+	},
+	"ExpressionResult": {
+		"properties": {
+			"queryString": {
+				"type":"string"
+			},
+			"queryDuration": {
+				"type":"number"
+			},
+			"answers": {
+				"type":"array",
+				"items":{
+					"type": "string"
+				}
+			}
+		}
+	}
+  }
+}
