@@ -60,7 +60,7 @@ public class ExpressionController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @PostMapping(path = "/solve", produces = "application/json")
+    @PostMapping(path = "/api/solve", produces = "application/json")
     public Flux<ExpressionResult> solveModel(@RequestBody ModelQuery modelQuery) {
 		List<String> queries = new ArrayList<>();
 		queries.add(modelQuery.getQuery());

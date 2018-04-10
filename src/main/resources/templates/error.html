@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>PRAiSE World Modelers</title>
+	<link rel="stylesheet" href="/layouts/pure-min.css" />
+	<link rel="stylesheet" href="/layouts/side-menu.css">
+</head>
+
+<body>
+	<div id="layout">
+		<a href="#menu" id="menuLink" class="menu-link">
+			<span></span>
+		</a>
+		<div id="menu">
+			<div class="pure-menu" th:replace="template :: menu">
+				<!-- Place holder content -->
+				<a class="pure-menu-heading" href="#">PRAiSE-WM</a>
+
+				<ul class="pure-menu-list">
+					<li class="pure-menu-item">
+						<a href="/" class="pure-menu-link">Home</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div id="main">
+			<div class="header">
+				<h1>An Error Occured</h1>
+				<h2>There was a problem processing your request</h2>
+			</div>
+
+			<div class="content">
+				<h2 class="content-subhead">Server Error</h2>
+				<p>
+					An error occured during the processing of your request.  Please try again later.
+				</p>
+			</div>
+		</div>
+	</div>
+	<script src="/layouts/ui.js"></script>
+</body>
+
+</html>
